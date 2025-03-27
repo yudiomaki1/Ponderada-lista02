@@ -253,7 +253,7 @@ function frete() {
         let compra = valor[i];
 
         if (compra < 50){
-            console.log('Frete não disponível');
+            console.log('Frete não disponível'); 
         }else if(compra >= 50 && compra < 200){
             console.log('Frete com custo adicional');
         }else{
@@ -326,24 +326,23 @@ Considere a fórumla de atualização velocidade:
 ```
 Seu programa deve determinar quanto tempo será necessário para que a sonda atinja uma velocidade segura de pouso, sem ultrapassar os limites estabelecidos.
 ```
-function Pouso(velocidadeInicial, tempoMaximo, desaceleracao, velocidadeSegura, desaceleracaoMinima) {
-    velocidade = velocidadeInicial - desaceleracao * tempo
-    tempo = (velocidadeInicial - velocidadeSegura) / desaceleracao;
+function calcularTempoDePouso(velocidadeInicial, desaceleracao, velocidadeSegura, tempoMaximo) {
+    let tempo = 0;
+    let velocidadeAtual = velocidadeInicial;
 
-    if (desaceleracao < desaceleracaoMinima) {
-        console.log('Desaceleração abaixo do limite minimo');
+    while (velocidadeAtual > velocidadeSegura && tempo < tempoMaximo) {
+        tempo++;
+        velocidadeAtual = velocidadeInicial - desaceleracao * tempo;
     }
 
-    tempo = (velocidadeInicial - velocidadeSegura) / desaceleracao;
-    velocidade = velocidadeInicial - desaceleracao * tempo;
-
-    if (tempo > tempoMaximo) {
-        console.log('tempo de pouso acima do limite maximo');
+    if (velocidadeAtual <= velocidadeSegura) {
+        return `O tempo necessário para pousar de forma segura foi ${tempo} seg`;
+    } else {
+        return `A velocidade segura não foi atingida`;
     }
-
-    console.log('A velocidade é '+ velocidade )
-    console.log('O tempo necessario foi '+ tempo)
 }
+
+console.log(calcularTempoDePouso(300, 20, 5, 30));
 ```
 ______
 
@@ -377,3 +376,31 @@ Escrever("Total de investimentos acumulados:")
 ImprimirMatriz(totalInvestimentos)  
 ```
 Agora, implemente a função MultiplicarMatrizesInvestimento(matrizA, matrizB), que multiplica as duas matrizes, simulando o efeito de diferentes fatores de crescimento e impacto financeiro nos investimentos ao longo do tempo.
+```
+function multiplicarMatrizesInvestimento(matrizA, matrizB) {
+    let linhasA = matrizA.length;
+    let colunasA = matrizA[0].length;
+    let linhasB = matrizB.length;
+    let colunasB = matrizB[0].length;
+
+    // Verifica se o numero de linhas e colunas e diferente
+    if (colunasA !== linhasB) {
+        return "O numero de linhas e colunas é diferente";
+    }
+
+    // Cria a matriz resultado com dimensões apropriadas
+    let matrizResultado = Array.from({ length: linhasA }, () => Array(colunasB).fill(0)); //identifica quantos elementos o array possui e utiliza o .fill para preencher os elementos com 0
+
+    // Multiplicação de matrizes
+    for (let i = 0; i < linhasA; i++) {  //define a quantidade de linhas
+        for (let j = 0; j < colunasB; j++) { // define a quantidade de colunas 
+            for (let k = 0; k < colunasA; k++) {
+                matrizResultado[i][j] += matrizA[i][k] * matrizB[k][j];  //soma os produtos das linhas e colunas
+            }
+        }
+    }
+
+    return matrizResultado;
+}
+
+```
